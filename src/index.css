@@ -8,6 +8,7 @@
 
   @theme {
     --color-primary: #8BB18F;
+    --color-light-pink:#F0E0E0;
     --color-light-green: #D7E2AA;
     --color-dusty-red: #9e6f6d;
     --color-green-gray: #86795a;
@@ -15,6 +16,7 @@
     --color-pale-peach: #eedac2;
     --color-dusty-rose: #e8b59b;
     --color-muted-pink: #c77465;
+    --color-light-gray: #F9F2EC;
   }
   
   html {
