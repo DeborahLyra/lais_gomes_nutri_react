@@ -33,7 +33,7 @@ export function MyServirces() {
                         <div className={`${service.bgColor} rounded-md p-4 text-light-pink`}>
                             <h3 className="font-bold text-xl mt-4 mb-8">{service.title}</h3>
                             <p className="mb-8">{service.text}</p>
-                            <span className="mt-8 flex items-center justify-center gap-2 text-slate-700 hover:translate-1.5">
+                            <span className="mt-8 flex items-center justify-center gap-2 text-slate-700 hover:-translate-y-1.5 cursor-pointer">
                                 Saiba mais
                                 <ArrowRightIcon size={16}/>
                                 </span>
