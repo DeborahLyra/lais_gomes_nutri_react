@@ -2,7 +2,7 @@ import profile from '../../assets/profile/lais_image_3.jpeg';
 
 export function Banner() {
     return (
-        <div className="flex flex-col md:flex-row items-center justify-between h-auto md:h-[550px] bg--light-gray p-6 md:p-10">
+        <div className="flex flex-col md:flex-row items-center justify-between h-auto md:h-[550px] bg-light-gray p-6 md:p-10">
             <div className="w-full md:w-1/2 text-center md:text-left mb-8 md:mb-0">
                 <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">Laís Gomes</h1>
                 <h3 className="text-md md:text-kl text-green-gray mb-6">Descubra o poder de uma alimentação equilibrada e personalizada para você. Juntos, vamos construir hábitos saudáveis que transformarão sua vida.</h3>
