@@ -20,7 +20,7 @@ const services =[
 
 export function MyServirces() {
   return (
-    <section className="bg-light-gray p-8 text-center">
+    <section id="services"  className="bg-light-gray p-8 text-center">
           <h2 className="text-primary font-bold text-4xl mb-4">
               Nossos Serviços
           </h2>

@@ -1,4 +1,4 @@
-import { HomePage } from "./pages/HomePage"
+import { RouterComponent } from "./Routes/Routes"
 
 
 function App() {
@@ -6,7 +6,7 @@ function App() {
 
   return (
     <>
-      <HomePage/>
+      <RouterComponent/>
     </>
   )
 }

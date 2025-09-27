@@ -4,7 +4,7 @@ import logo from '../../assets/profile/logoLais.png'
 export function Footer() {
     return (
         <div className="w-full bg-light-pink">
-            <div className="p-8 flex flex-col items-center">
+            <div id="schedule" className="p-8 flex flex-col items-center">
                 <h2 className="text-primary font-bold text-4xl mb-4">Pronto para transformar sua saúde?</h2>
                 <p className=" text-green-gray text-lg font-light">Agende sua consulta e dê o primeiro passo para uma vida mais saudável</p>
                 <button className='w-40 h-10 text-white bg-primary mt-8 p-2 rounded-md cursor-pointer hover:bg-light-green'>

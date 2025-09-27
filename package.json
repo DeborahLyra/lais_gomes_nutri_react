@@ -13,11 +13,13 @@
     "@headlessui/react": "^2.2.8",
     "@heroicons/react": "^2.2.0",
     "@phosphor-icons/react": "^2.1.10",
+    "@supabase/supabase-js": "^2.58.0",
     "@tailwindcss/vite": "^4.1.13",
     "framer-motion": "^12.23.19",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.1",
+    "router-dom": "^3.0.3",
     "tailwindcss": "^4.1.13"
   },
   "devDependencies": {

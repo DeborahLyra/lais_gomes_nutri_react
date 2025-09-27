@@ -14,7 +14,7 @@ const bio = [
 
 export function AboutMe() {
     return (
-        <section className="w-full p-8 bg-light-pink flex flex-col items-center ">
+        <section id='aboutMe' className="w-full p-8 bg-light-pink flex flex-col items-center ">
             <div className="w-full flex flex-col md:flex-row items-center justify-around">
                 <img
                     src={profile}
