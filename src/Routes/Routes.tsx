@@ -6,6 +6,9 @@ import { AdminDashboard } from "../pages/admin/AdminDashboard";
 import { PrivateRoute } from "../components/general/PrivateRoute";
 import { DashboardPage } from "../pages/dashboard/DashboardPage";
 import { AllNewsPage } from "../pages/dashboard/AllNewsPage";
+import { NewsDetail } from "../pages/dashboard/NewsDetail";
+import { AllRecipesPage } from "../pages/dashboard/AllRecipesPage";
+import { RecipeDetail } from "../pages/dashboard/RecipeDetail";
 
 
 export function RouterComponent() {
@@ -25,9 +28,12 @@ export function RouterComponent() {
                 <Route path="/" element={<DefaultLayout />}>
                     <Route index element={<HomePage />} />
                 </Route>
-
+                
                 <Route path="/dashboard" element={<DashboardPage />} />
                 <Route path="/all-news-page" element={<AllNewsPage />} />
+                <Route path="/news-detail" element={<NewsDetail />} />
+                <Route path="/all-recipes-page" element={<AllRecipesPage/>} />
+                <Route path="/recipe-detail" element={<RecipeDetail/>} />
 
             </Routes>
         </BrowserRouter>

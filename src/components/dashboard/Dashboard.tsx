@@ -1,5 +1,6 @@
 import { CookingPot, Newspaper, ArrowRight, Clock, } from "@phosphor-icons/react";
 import { NavabarDashboard } from "./NavabarDashboard";
+import { Link } from "react-router-dom";
 //import { ArrowArcRightIcon } from "@phosphor-icons/react/dist/ssr";
 
 export function Dashboard() {
@@ -50,16 +51,14 @@ export function Dashboard() {
       <NavabarDashboard />
       
       <main className="mt-24 flex-1 p-6 lg:p-8">
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-muted-pink">Dashboard</h1>
           <p className="text-slate-700 mt-2">Bem-vindo de volta! Aqui estão as últimas atualizações.</p>
         </div>
 
-        {/* Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           
-          {/* NOTÍCIAS */}
+          {/* noticias */}
           <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 lg:col-span-1 xl:col-span-2">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
@@ -71,9 +70,9 @@ export function Dashboard() {
                   <p className="text-sm text-gray-500">Últimas atualizações</p>
                 </div>
               </div>
-              <button className="flex items-center gap-2 text-muted-pink hover:text-pink-800 text-sm font-medium">
+              <Link to="/all-news-page" className="flex items-center gap-2 text-muted-pink hover:text-pink-800 text-sm font-medium">
                 Ver todas <ArrowRight size={16} />
-              </button>
+              </Link>
             </div>
             
             <div className="space-y-4">
@@ -85,9 +84,9 @@ export function Dashboard() {
                     </span>
                     <span className="text-xs text-gray-500">{item.date}</span>
                   </div>
-                  <a href="#" className="block text-gray-900 font-medium hover:text-blue-600 transition-colors mb-2">
+                  <Link to="#" className="block text-gray-900 font-medium hover:text-muted-pink transition-colors mb-2">
                     {item.title}
-                  </a>
+                  </Link>
                   <div className="flex items-center gap-4 text-xs text-gray-500">
                     <div className="flex items-center gap-1">
                       <Clock size={12} />
@@ -99,7 +98,7 @@ export function Dashboard() {
             </div>
           </section>
 
-          {/* RECEITAS */}
+          {/* receitas */}
           <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
