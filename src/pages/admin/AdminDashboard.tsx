@@ -1,9 +1,129 @@
-
+import { 
+  Newspaper, 
+  CookingPot, 
+  Users, 
+  Eye,
+  Plus,
+  Calendar, 
+  TrendUpIcon
+} from "@phosphor-icons/react";
+import { useNavigate } from 'react-router-dom';
 
 export function AdminDashboard() {
+  const navigate = useNavigate();
+
+  const stats = [
+    {
+      title: "Total de Notícias",
+      value: "24",
+      icon: Newspaper,
+      color: "blue",
+      link: "/admin/news"
+    },
+    {
+      title: "Total de Receitas",
+      value: "48",
+      icon: CookingPot,
+      color: "green",
+      link: "/admin/recipes"
+    },
+    {
+      title: "Clientes Cadastrados",
+      value: "156",
+      icon: Users,
+      color: "purple",
+      link: "/admin/clients"
+    },
+  ];
+
+  const recentActivities = [
+    { action: "Nova receita adicionada", time: "há 2 minutos", type: "recipe" },
+    { action: "Notícia publicada", time: "há 15 minutos", type: "news" },
+    { action: "Cliente cadastrado", time: "há 1 hora", type: "client" },
+    { action: "Receita atualizada", time: "há 2 horas", type: "recipe" },
+  ];
+
+  const getColorClasses = (color: string) => {
+    const colors = {
+      blue: 'bg-blue-100 text-blue-600',
+      green: 'bg-green-100 text-green-600',
+      purple: 'bg-purple-100 text-purple-600',
+      orange: 'bg-orange-100 text-orange-600'
+    };
+    return colors[color as keyof typeof colors] || colors.blue;
+  };
+
   return (
-    <div>
-      
-    </div>
-  )
+    <div className="space-y-8 p-8">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b-2 border-b-dusty-red p-2">
+        <div>
+          <h1 className="text-2xl font-bold text-dusty-red">Meu Dashboard</h1>
+          <p className="text-slate-700">Visão geral do sistema</p>
+        </div>
+        <div className="flex gap-3 mt-4 sm:mt-0">
+          <button className="flex items-center gap-2 px-4 py-2 bg-dusty-red text-white rounded-lg hover:bg-muted-pink transition-colors">
+            <Plus size={20} />
+            Nova Publicação
+          </button>
+        </div>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {stats.map((stat, index) => {
+          const Icon = stat.icon;
+          return (
+            <div 
+              key={index}
+              onClick={() => navigate(stat.link)}
+              className="bg-dusty-red rounded-xl shadow-sm border border-gray-100 p-6 cursor-pointer hover:shadow-md transition-shadow"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <div className={`p-3 rounded-lg ${getColorClasses(stat.color)}`}>
+                  <Icon size={24} weight="bold" />
+                </div>
+               
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-1">{stat.value}</h3>
+              <p className="text-white">{stat.title}</p>
+            </div>
+          );
+        })}
+      </div>
+
+
+        {/* Quick Actions */}
+        <div className="bg-white rounded-xl shadow-sm border border-dusty-red p-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-6">Ações Rápidas</h2>
+          <div className="grid grid-cols-2 gap-4">
+            <button 
+              onClick={() => navigate('/admin/news/new')}
+              className="bg-p-4 border-2 border-dashed border-dusty-red rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors text-center"
+            >
+              <Newspaper size={32} className="text-dusty-red  mx-auto mb-2" />
+              <p className="font-medium text-gray-700">Nova Notícia</p>
+            </button>
+            <button 
+              onClick={() => navigate('/admin/recipes/new')}
+              className="p-4 border-2 border-dashed border-dusty-red rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors text-center"
+            >
+              <CookingPot size={32} className="text-dusty-red  mx-auto mb-2" />
+              <p className="font-medium text-gray-700">Nova Receita</p>
+            </button>
+            <button 
+              onClick={() => navigate('/admin/clients/new')}
+              className="p-4 border-2 border-dashed border-dusty-red rounded-lg hover:border-purple-500 hover:bg-purple-50 transition-colors text-center"
+            >
+              <Users size={32} className="text-dusty-red mx-auto mb-2" />
+              <p className="font-medium text-gray-700">Novo Cliente</p>
+            </button>
+            <button className="p-4 border-2 border-dashed border-dusty-red rounded-lg hover:border-orange-500 hover:bg-orange-50 transition-colors text-center">
+              <TrendUpIcon size={32} className="text-dusty-red mx-auto mb-2" />
+              <p className="font-medium text-gray-700">Relatórios</p>
+            </button>
+          </div>
+        </div>
+      </div>
+  );
 }

@@ -34,6 +34,7 @@ export function RouterComponent() {
                 <Route path="/news-detail" element={<NewsDetail />} />
                 <Route path="/all-recipes-page" element={<AllRecipesPage/>} />
                 <Route path="/recipe-detail" element={<RecipeDetail/>} />
+                <Route path="/admim-dashboard" element={<AdminDashboard/>} />
 
             </Routes>
         </BrowserRouter>
