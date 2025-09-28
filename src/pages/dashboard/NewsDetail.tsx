@@ -1,8 +1,8 @@
 import { Calendar, Clock, ArrowLeft } from "@phosphor-icons/react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export function NewsDetail() {
-    const { id } = useParams();
+    //const { id } = useParams();
 
     const news = {
         id: 1,

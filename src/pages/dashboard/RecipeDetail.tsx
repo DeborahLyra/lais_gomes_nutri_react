@@ -1,8 +1,8 @@
 import { Clock, ArrowLeft, User, Flame, Star} from "@phosphor-icons/react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export function RecipeDetail() {
-  const { id } = useParams();
+  //const { id } = useParams();
 
   const recipe = {
     id: 1,
