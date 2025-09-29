@@ -44,7 +44,7 @@ export function NewsDetail() {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            <header className="bg-white shadow-sm border-b">
+            <header className="bg-light-sage shadow-sm border-b">
                 <div className="container mx-auto px-4 py-4">
                     <div className="flex items-center justify-between">
                         <Link to="/all-news-page" className="flex items-center gap-2 text-muted-pink hover:text-pink-800 transition-colors">

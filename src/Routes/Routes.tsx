@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { DefaultLayout } from "../layouts/DefaultLayout";
 import { HomePage } from "../pages/HomePage";
-import { LoginPage } from "../pages/LoginPage";
 import { AdminDashboard } from "../pages/admin/AdminDashboard";
 import { PrivateRoute } from "../components/general/PrivateRoute";
 import { DashboardPage } from "../pages/dashboard/DashboardPage";
@@ -9,13 +8,14 @@ import { AllNewsPage } from "../pages/dashboard/AllNewsPage";
 import { NewsDetail } from "../pages/dashboard/NewsDetail";
 import { AllRecipesPage } from "../pages/dashboard/AllRecipesPage";
 import { RecipeDetail } from "../pages/dashboard/RecipeDetail";
+import { Login } from "../pages/Login";
 
 
 export function RouterComponent() {
     return (
         <BrowserRouter basename="/">
             <Routes>
-                <Route path="login" element={<LoginPage />} />
+                <Route path="login" element={<Login />} />
                 <Route
                     path="admin"
                     element={
