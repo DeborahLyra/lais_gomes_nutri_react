@@ -1,4 +1,3 @@
-// src/pages/admin/NewsManagement.tsx
 import { useState } from 'react';
 import { Plus, Pencil, Trash, Eye, FileSearchIcon } from "@phosphor-icons/react";
 import { useNavigate } from 'react-router-dom';
@@ -113,13 +112,13 @@ export function NewsManagement() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
-                      <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                      <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer">
                         <Eye size={16} />
                       </button>
-                      <button className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors">
+                      <button className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors cursor-pointer">
                         <Pencil size={16} />
                       </button>
-                      <button className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                      <button className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer">
                         <Trash size={16} />
                       </button>
                     </div>

@@ -16,21 +16,21 @@ export function AdminDashboard() {
       value: "24",
       icon: Newspaper,
       color: "blue",
-      link: "/admin/news"
+      link: "/news-management"
     },
     {
       title: "Total de Receitas",
       value: "48",
       icon: CookingPot,
       color: "green",
-      link: "/admin/recipes"
+      link: "/recipes-management"
     },
     {
       title: "Clientes Cadastrados",
       value: "156",
       icon: Users,
       color: "purple",
-      link: "/admin/clients"
+      link: "/clients-management"
     },
   ];
 
@@ -46,7 +46,7 @@ export function AdminDashboard() {
   };
 
   return (
-    <div className="space-y-8 p-8">
+    <div className="space-y-6 p-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b-2 border-b-dusty-red p-2">
         <div>
           <h1 className="text-2xl font-bold text-dusty-red">Meu Dashboard</h1>

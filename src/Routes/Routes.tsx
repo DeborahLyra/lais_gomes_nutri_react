@@ -10,6 +10,8 @@ import { AllRecipesPage } from "../pages/dashboard/AllRecipesPage";
 import { RecipeDetail } from "../pages/dashboard/RecipeDetail";
 import { Login } from "../pages/Login";
 import { NewsManagement } from "../pages/admin/ NewsManagement";
+import { RecipesManagement } from "../pages/admin/RecipesManagement";
+import { ClientsManagement } from "../pages/admin/ClientsManagement";
 
 
 export function RouterComponent() {
@@ -29,7 +31,6 @@ export function RouterComponent() {
                 <Route path="/" element={<DefaultLayout />}>
                     <Route index element={<HomePage />} />
                 </Route>
-
                 <Route path="/dashboard" element={<DashboardPage />} />
                 <Route path="/all-news-page" element={<AllNewsPage />} />
                 <Route path="/news-detail" element={<NewsDetail />} />
@@ -37,6 +38,8 @@ export function RouterComponent() {
                 <Route path="/recipe-detail" element={<RecipeDetail />} />
                 <Route path="/admim-dashboard" element={<AdminDashboard />} />
                 <Route path="/news-management" element={<NewsManagement />} />
+                <Route path="/recipes-management" element={<RecipesManagement />} />
+                <Route path="/clients-management" element={<ClientsManagement />} />
 
             </Routes>
         </BrowserRouter>
