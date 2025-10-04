@@ -1,43 +1,19 @@
 import { useState } from 'react';
 import { Plus, Pencil, Trash, Eye, Star, FileSearchIcon } from "@phosphor-icons/react";
 import { useNavigate } from 'react-router-dom';
+import type { Recipe } from '../../types/supabase';
+import { recipes } from '../../types/examples';
+import { RecipeModal } from '../../components/admin/RecipeModal';
+import { RecipeViewModal } from '../../components/admin/RecipeViewModal';
 
 export function RecipesManagement() {
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null);
+    const [selectedgRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+    const [isRecipeViewOpen, setIsRecipeViewOpen] = useState(false);
 
-    const recipes = [
-        {
-            id: 1,
-            title: "Smoothie energético de frutas vermelhas",
-            category: "Café da Manhã",
-            difficulty: "Fácil",
-            time: "10 min",
-            status: "Publicado",
-            calories: "180 kcal",
-            image: "https://images.unsplash.com/photo-1570696516188-ade861b84a49?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-        },
-        {
-            id: 2,
-            title: "Bowl nutritivo com quinoa e legumes",
-            category: "Almoço",
-            difficulty: "Médio",
-            time: "25 min",
-            status: "Publicado",
-            calories: "320 kcal",
-            image: "https://images.unsplash.com/photo-1602881917445-0b1ba001addf?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-        },
-        {
-            id: 3,
-            title: "Muffin integral de banana e aveia",
-            category: "Lanche",
-            difficulty: "Fácil",
-            time: "35 min",
-            status: "Rascunho",
-            calories: "210 kcal",
-            image: "https://images.unsplash.com/photo-1607958996333-41aef7caefaa?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-        }
-    ];
     
     const getDifficultyColor = (difficulty: string) => {
         return difficulty === 'Fácil'
@@ -54,12 +30,16 @@ export function RecipesManagement() {
                     <h1 className="text-2xl font-bold text-dusty-red">Gerenciar Receitas</h1>
                 </div>
                 <button
-                    onClick={() => navigate('/admin/recipes/new')}
+                    onClick={() => {
+                        setEditingRecipe(null);
+                        setIsModalOpen(true);
+                    }}
                     className="flex items-center gap-2 px-4 py-2 bg-dusty-red text-white rounded-lg hover:bg-muted-pink transition-colors"
                 >
                     <Plus size={20} />
                     Nova Receita
                 </button>
+
             </div>
 
             <div className="bg-white rounded-xl shadow-sm border border-dusty-red p-6">
@@ -94,7 +74,7 @@ export function RecipesManagement() {
                 {recipes.map((recipe) => (
                     <div key={recipe.id} className="bg-white rounded-xl shadow-sm border border-dusty-red overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
                         <div className="aspect-video bg-gray-200 relative">
-                            <img src={recipe.image} className="absolute inset-0 h-64 w-full"/>
+                            <img src={recipe.image_url} className="absolute inset-0 h-64 w-full"/>
                             <div className="absolute bottom-4 left-4 right-4">
                                 <h3 className="text-white font-semibold text-lg mb-2 line-clamp-2 shadow-2xs">
                                     {recipe.title}
@@ -115,18 +95,30 @@ export function RecipesManagement() {
                             </div>
 
                             <div className="flex items-center justify-between text-sm text-slate-700 mb-4">
-                                <span>{recipe.time}</span>
+                                <span>{recipe.created_at}</span>
                             </div>
 
                             <div className="flex items-center gap-2">
-                                <button className="flex-1 flex items-center justify-center gap-1 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer">
+                                <button 
+                                onClick={() => {
+                                    setSelectedRecipe(recipe);
+                                    setIsRecipeViewOpen(true);
+                                  }}
+                                className="flex-1 flex items-center justify-center gap-1 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer">
                                     <Eye size={16} />
                                     Visualizar
                                 </button>
-                                <button className="flex-1 flex items-center justify-center gap-1 py-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors cursor-pointer">
+                                <button
+                                    onClick={() => {
+                                        setEditingRecipe(recipe);
+                                        setIsModalOpen(true);
+                                    }}
+                                    className="flex-1 flex items-center justify-center gap-1 py-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors cursor-pointer"
+                                >
                                     <Pencil size={16} />
                                     Editar
                                 </button>
+
                                 <button className="flex-1 flex items-center justify-center gap-1 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer">
                                     <Trash size={16} />
                                     Excluir
@@ -136,6 +128,25 @@ export function RecipesManagement() {
                     </div>
                 ))}
             </div>
+
+            <RecipeModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                initialData={editingRecipe}
+                onSave={(recipeData) => {
+                    if (editingRecipe) {
+                        console.log("Editando receita:", recipeData);
+                    } else {
+                        console.log("Nova receita:", recipeData);
+                    }
+                }}
+/>
+            <RecipeViewModal
+                isOpen={isRecipeViewOpen}
+                onClose={() => setIsRecipeViewOpen(false)}
+                recipe={selectedgRecipe}
+            />
+
         </div>
     );
 }

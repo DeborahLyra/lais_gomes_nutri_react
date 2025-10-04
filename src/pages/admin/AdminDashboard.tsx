@@ -5,10 +5,15 @@ import {
   Plus,
   TrendUpIcon
 } from "@phosphor-icons/react";
+import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import type { Client } from "../../types/supabase";
 
 export function AdminDashboard() {
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+
 
   const stats = [
     {

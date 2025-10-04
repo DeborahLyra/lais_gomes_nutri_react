@@ -1,4 +1,3 @@
-// types/supabase.ts
 export interface News {
     id: string; // UUID do Supabase
     title: string;
@@ -9,6 +8,7 @@ export interface News {
     status: 'draft' | 'published';
     created_at: string;
     updated_at: string;
+
   }
   
   export interface Recipe {

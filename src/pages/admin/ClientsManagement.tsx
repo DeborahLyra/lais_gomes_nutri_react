@@ -1,40 +1,15 @@
 import { useState } from 'react';
 import { Plus,Pencil, Trash, Eye, User, Envelope, Phone, FileSearchIcon } from "@phosphor-icons/react";
 import { useNavigate } from 'react-router-dom';
+import type { Client } from '../../types/supabase';
+import { clients } from '../../types/examples';
+import { ClientModal } from '../../components/admin/ClientModal';
 
 export function ClientsManagement() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
-
-  const clients = [
-    {
-      id: 1,
-      name: "João Silva",
-      email: "joao.silva@email.com",
-      phone: "(11) 99999-9999",
-      plan: "Premium",
-      status: "Ativo",
-      joinDate: "15/03/2024"
-    },
-    {
-      id: 2,
-      name: "Maria Santos",
-      email: "maria.santos@email.com",
-      phone: "(11) 98888-8888",
-      plan: "Básico",
-      status: "Ativo",
-      joinDate: "10/03/2024"
-    },
-    {
-      id: 3,
-      name: "Pedro Oliveira",
-      email: "pedro.oliveira@email.com",
-      phone: "(11) 97777-7777",
-      plan: "Premium",
-      status: "Inativo",
-      joinDate: "01/03/2024"
-    }
-  ];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
 
   const getStatusColor = (status: string) => {
     return status === 'Ativo' 
@@ -55,7 +30,10 @@ export function ClientsManagement() {
           <h1 className="text-2xl font-bold text-dusty-red">Gerenciar Clientes</h1>
         </div>
         <button 
-          onClick={() => navigate('/admin/clients/new')}
+          onClick={() => {
+            setSelectedClient(null);
+            setIsModalOpen(true);
+          }}
           className="flex items-center gap-2 px-4 py-2 bg-dusty-red text-white rounded-lg hover:bg-muted-pink transition-colors"
         >
           <Plus size={20} />
@@ -119,7 +97,7 @@ export function ClientsManagement() {
                 <span>{client.phone}</span>
               </div>
               <div className="text-xs text-gray-500">
-                Cliente desde: {client.joinDate}
+                Cliente desde: {client.created_at}
               </div>
             </div>
 
@@ -128,7 +106,13 @@ export function ClientsManagement() {
                 <Eye size={16} />
                 Ver
               </button>
-              <button className="flex-1 flex items-center justify-center gap-1 py-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors cursor-pointer">
+              <button
+                className="flex-1 flex items-center justify-center gap-1 py-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors cursor-pointer"
+                onClick={() => {
+                  setSelectedClient(client);
+                  setIsModalOpen(true);
+                }}
+              >
                 <Pencil size={16} />
                 Editar
               </button>
@@ -140,6 +124,12 @@ export function ClientsManagement() {
           </div>
         ))}
       </div>
+      <ClientModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={(data) => console.log("Salvar cliente:", data)}
+        initialData={selectedClient}
+      />
     </div>
   );
 }

@@ -1,46 +1,30 @@
 import { useState } from 'react';
 import { Plus, Pencil, Trash, Eye, FileSearchIcon } from "@phosphor-icons/react";
 import { useNavigate } from 'react-router-dom';
+import type { News } from '../../types/supabase';
+import { news } from '../../types/examples';
+import { NewsModal } from '../../components/admin/NewsModal';
+import { NewsViewModal } from '../../components/admin/NewsViewModal';
 
 export function NewsManagement() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
-
-  const news = [
-    {
-      id: 1,
-      title: "Nova pesquisa mostra benefícios da alimentação balanceada",
-      category: "Pesquisa",
-      status: "Publicado",
-      date: "15 Mar 2024",
-      views: 1247
-    },
-    {
-      id: 2,
-      title: "Guia prático: como planejar refeições da semana",
-      category: "Dicas",
-      status: "Publicado",
-      date: "12 Mar 2024",
-      views: 892
-    },
-    {
-      id: 3,
-      title: "O impacto do sono na sua saúde nutricional",
-      category: "Saúde",
-      status: "Rascunho",
-      date: "10 Mar 2024",
-      views: 0
-    }
-  ];
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingNews, setEditingNews] = useState<News | null>(null);
+  const [isNewsViewOpen, setIsNewsViewOpen] = useState(false);
+  const [selectedNews, setSelectedNews] = useState<News | null>(null);
+  
   return (
     <div className="space-y-8 p-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b-2 border-b-dusty-red p-2">
         <div>
           <h1 className="text-2xl font-bold text-dusty-red">Gerenciar Notícias</h1>
         </div>
-        <button 
-          onClick={() => navigate('/admin/news/new')}
+        <button
+          onClick={() => {
+            setEditingNews(null);
+            setIsModalOpen(true);
+          }}
           className="flex items-center gap-2 px-4 py-2 bg-dusty-red text-white rounded-lg hover:bg-muted-pink transition-colors"
         >
           <Plus size={20} />
@@ -108,14 +92,27 @@ export function NewsManagement() {
                     </span>
                   </td>
                   <td className="px-6 py-4 text-dusty-red0">
-                    {item.date}
+                    {item.created_at}
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
-                      <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer">
+                      <button
+                        onClick={() => {
+                          setSelectedNews(item);
+                          setIsNewsViewOpen(true);
+                        }}
+                        className="flex items-center justify-center gap-1 py-2 text-blue-600 hover:bg-blue-50 rounded-lg cursor-pointer"
+                      >
                         <Eye size={16} />
+                        Visualizar
                       </button>
-                      <button className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors cursor-pointer">
+                      <button
+                        onClick={() => {
+                          setEditingNews(item);
+                          setIsModalOpen(true);
+                        }}
+                        className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors cursor-pointer"
+                      >
                         <Pencil size={16} />
                       </button>
                       <button className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer">
@@ -129,6 +126,23 @@ export function NewsManagement() {
           </table>
         </div>
       </div>
+      <NewsModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        initialData={editingNews}
+        onSave={(newsData) => {
+          if (editingNews) {
+            console.log("Editando notícia:", newsData);
+          } else {
+            console.log("Nova notícia:", newsData);
+          }
+        }}
+      />
+      <NewsViewModal
+        isOpen={isNewsViewOpen}
+        onClose={() => setIsNewsViewOpen(false)}
+        news={selectedNews}
+      />
     </div>
   );
 }
