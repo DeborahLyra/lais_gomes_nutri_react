@@ -57,12 +57,6 @@ export function AdminDashboard() {
           <h1 className="text-2xl font-bold text-dusty-red">Meu Dashboard</h1>
           <p className="text-slate-700">Visão geral do sistema</p>
         </div>
-        <div className="flex gap-3 mt-4 sm:mt-0">
-          <button className="flex items-center gap-2 px-4 py-2 bg-dusty-red text-white rounded-lg hover:bg-muted-pink transition-colors">
-            <Plus size={20} />
-            Nova Publicação
-          </button>
-        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -94,7 +88,7 @@ export function AdminDashboard() {
         <h2 className="text-lg font-semibold text-gray-900 mb-6">Ações Rápidas</h2>
         <div className="grid grid-cols-2 gap-4">
           <button
-            onClick={() => navigate('/admin/news/new')}
+            onClick={() => navigate('/news-management')}
             className="group p-4 border-2 border-dashed border-dusty-red rounded-lg hover:border-muted-pink hover:bg-muted-pink transition-colors text-center"
           >
             <Newspaper size={32} className="text-dusty-red mx-auto mb-2 group-hover:text-white" />
@@ -102,7 +96,7 @@ export function AdminDashboard() {
           </button>
 
           <button
-            onClick={() => navigate('/admin/recipes/new')}
+            onClick={() => navigate('/recipes-management')}
             className="group p-4 border-2 border-dashed border-dusty-red rounded-lg hover:border-muted-pink hover:bg-muted-pink transition-colors text-center"
           >
             <CookingPot size={32} className="text-dusty-red mx-auto mb-2 group-hover:text-white" />
@@ -110,14 +104,15 @@ export function AdminDashboard() {
           </button>
 
           <button
-            onClick={() => navigate('/admin/clients/new')}
+            onClick={() => navigate('/clients-management')}
             className="group p-4 border-2 border-dashed border-dusty-red rounded-lg hover:border-muted-pink hover:bg-muted-pink transition-colors text-center"
           >
-            <Users size={32} className="text-dusty-red mx-auto mb-2 group-hover:text-white" />
+            <Users  size={32} className="text-dusty-red mx-auto mb-2 group-hover:text-white" />
             <p className="font-medium text-gray-700 group-hover:text-white">Novo Cliente</p>
           </button>
 
-          <button className="group p-4 border-2 border-dashed border-dusty-red rounded-lg hover:border-muted-pink hover:bg-muted-pink transition-colors text-center">
+          <button onClick={() => navigate('/admim-dashboard')} 
+          className="group p-4 border-2 border-dashed border-dusty-red rounded-lg hover:border-muted-pink hover:bg-muted-pink transition-colors text-center">
             <TrendUpIcon size={32} className="text-dusty-red mx-auto mb-2 group-hover:text-white" />
             <p className="font-medium text-gray-700 group-hover:text-white">Relatórios</p>
           </button>
