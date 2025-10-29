@@ -2,43 +2,32 @@ import {
   Newspaper,
   CookingPot,
   Users,
-  Plus,
-  TrendUpIcon
 } from "@phosphor-icons/react";
-import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import type { Client } from "../../types/supabase";
 
 export function AdminDashboard() {
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
-
 
   const stats = [
     {
       title: "Total de Notícias",
-      value: "24",
       icon: Newspaper,
       color: "blue",
       link: "/news-management"
     },
     {
       title: "Total de Receitas",
-      value: "48",
       icon: CookingPot,
       color: "green",
       link: "/recipes-management"
     },
     {
       title: "Clientes Cadastrados",
-      value: "156",
       icon: Users,
       color: "purple",
       link: "/clients-management"
     },
   ];
-
 
   const getColorClasses = (color: string) => {
     const colors = {
@@ -73,52 +62,14 @@ export function AdminDashboard() {
                   <Icon size={24} weight="bold" />
                 </div>
               </div>
-              <h3 className="text-2xl font-bold text-white mb-1 group-hover:text-white transition-colors">
-                {stat.value}
-              </h3>
-              <p className="text-white group-hover:text-white transition-colors">{stat.title}</p>
+              <p className="text-white text-2xl font-extralight group-hover:text-white transition-colors">{stat.title}</p>
             </div>
           );
         })}
       </div>
 
 
-
-      <div className="bg-white rounded-xl shadow-sm border border-dusty-red p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-6">Ações Rápidas</h2>
-        <div className="grid grid-cols-2 gap-4">
-          <button
-            onClick={() => navigate('/news-management')}
-            className="group p-4 border-2 border-dashed border-dusty-red rounded-lg hover:border-muted-pink hover:bg-muted-pink transition-colors text-center"
-          >
-            <Newspaper size={32} className="text-dusty-red mx-auto mb-2 group-hover:text-white" />
-            <p className="font-medium text-gray-700 group-hover:text-white">Nova Notícia</p>
-          </button>
-
-          <button
-            onClick={() => navigate('/recipes-management')}
-            className="group p-4 border-2 border-dashed border-dusty-red rounded-lg hover:border-muted-pink hover:bg-muted-pink transition-colors text-center"
-          >
-            <CookingPot size={32} className="text-dusty-red mx-auto mb-2 group-hover:text-white" />
-            <p className="font-medium text-gray-700 group-hover:text-white">Nova Receita</p>
-          </button>
-
-          <button
-            onClick={() => navigate('/clients-management')}
-            className="group p-4 border-2 border-dashed border-dusty-red rounded-lg hover:border-muted-pink hover:bg-muted-pink transition-colors text-center"
-          >
-            <Users  size={32} className="text-dusty-red mx-auto mb-2 group-hover:text-white" />
-            <p className="font-medium text-gray-700 group-hover:text-white">Novo Cliente</p>
-          </button>
-
-          <button onClick={() => navigate('/admim-dashboard')} 
-          className="group p-4 border-2 border-dashed border-dusty-red rounded-lg hover:border-muted-pink hover:bg-muted-pink transition-colors text-center">
-            <TrendUpIcon size={32} className="text-dusty-red mx-auto mb-2 group-hover:text-white" />
-            <p className="font-medium text-gray-700 group-hover:text-white">Relatórios</p>
-          </button>
-        </div>
-      </div>
-
+   
     </div>
   );
 }

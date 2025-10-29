@@ -19,7 +19,6 @@ const statusMap: { [key: string]: string } = {
     'published': 'Publicado',
 };
 
-// Cores para os badges (melhora a visualização do status/dificuldade)
 const difficultyColorMap: { [key: string]: string } = {
     'easy': 'bg-green-100 text-green-700',
     'medium': 'bg-yellow-100 text-yellow-700',
@@ -43,7 +42,7 @@ export function RecipeViewModal({ isOpen, onClose, recipe }: RecipeViewModalProp
 
 
   return (
-    <div className="fixed inset-0 backdrop-blur-[2px] flex items-center justify-center z-50 overflow-y-auto">
+    <div className="fixed inset-0 backdrop-blur-[2px] flex items-center justify-center z-50 overflow-y-auto" >
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-3xl p-6 relative my-10 max-h-[90vh] overflow-y-auto transform transition-all duration-300">
         <button
           onClick={onClose}
