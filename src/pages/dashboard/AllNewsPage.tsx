@@ -93,14 +93,9 @@ export function AllNewsPage() {
           <div className="flex items-center justify-between text-xs text-gray-500">
             <div className="flex items-center gap-1">
               <ClockIcon size={12} />
-              {/* Se o seu BD não tiver readTime, você pode removê-lo ou calcular aqui */}
-              {/* Exemplo: */}
               ~{(news.content.split(' ').length / 200).toFixed(0) || 1} min leitura
             </div>
-            <Link 
-              to={`/news/${news.id}`}
-              className="text-muted-pink hover:text-pink-800 font-medium"
-            >
+            <Link to={`/news-detail/${news.id}`} className="text-muted-pink hover:text-pink-800 font-medium">
               Ler mais →
             </Link>
           </div>
@@ -115,7 +110,6 @@ export function AllNewsPage() {
       {/* Header */}
       <header className="bg-white shadow-sm border-b">
         <div className="container mx-auto px-4 py-6">
-          {/* ... (Seu código do cabeçalho) ... */}
           <div className="flex items-center gap-4 mb-6">
             <Link to="/dashboard" className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
               <ArrowLeft size={24} className="text-muted-pink" />

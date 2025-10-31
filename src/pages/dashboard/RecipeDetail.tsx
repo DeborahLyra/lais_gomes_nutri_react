@@ -1,181 +1,264 @@
-import { Clock, ArrowLeft, User, Flame, Star} from "@phosphor-icons/react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import { Clock, ArrowLeft, User, Flame, Star } from "@phosphor-icons/react";
+import { supabase } from "../../lib/supabase";
+
+interface Recipe {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  difficulty: string;
+  preparation_time: string;
+  calories: string;
+  rating?: number;
+  reviews?: number;
+  image_url: string;
+  ingredients: string[];
+  instructions: string[];
+  nutrition?: {
+    calories: string;
+    protein: string;
+    carbs: string;
+    fat: string;
+    fiber: string;
+  };
+  tips?: string[];
+  author?: string;
+}
 
 export function RecipeDetail() {
-  //const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const recipe = {
-    id: 1,
-    title: "Smoothie energético de frutas vermelhas",
-    description: "Comece seu dia com esta explosão de energia e antioxidantes. Perfeito para um café da manhã rápido e nutritivo.",
-    image: "https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=800",
-    time: "10 min",
-    difficulty: "Fácil",
-    calories: "180 kcal",
-    rating: 4.8,
-    reviews: 127,
-    category: "Café da Manhã",
-    author: "Chef Maria Santos",
-    
-    ingredients: [
-      "1 xícara de frutas vermelhas congeladas (morango, framboesa, mirtilo)",
-      "1 banana madura",
-      "1/2 xícara de iogurte grego natural",
-      "1/2 xícara de leite de amêndoas",
-      "1 colher de sopa de sementes de chia",
-      "1 colher de chá de mel (opcional)",
-      "Gelo a gosto"
-    ],
-    
-    instructions: [
-      "Lave bem as frutas vermelhas se estiver usando frescas",
-      "Descasque a banana e corte em pedaços",
-      "Adicione todos os ingredientes no liquidificador",
-      "Bata em velocidade alta até obter uma mistura homogênea",
-      "Se necessário, adicione mais leite para atingir a consistência desejada",
-      "Sirva imediatamente e aproveite!"
-    ],
-    
-    nutrition: {
-      calories: 180,
-      protein: "8g",
-      carbs: "32g",
-      fat: "3g",
-      fiber: "5g"
-    },
-    
-    tips: [
-      "Use frutas congeladas para um smoothie mais cremoso",
-      "Adicione uma colher de proteína em pó para mais nutrientes",
-      "Para versão vegana, substitua o iogurte grego por iogurte de coco"
-    ]
+  // 🔧 função segura para converter string JSON em array
+  const safeParseArray = (value: any): string[] => {
+    if (Array.isArray(value)) return value;
+    try {
+      const parsed = JSON.parse(value);
+      return Array.isArray(parsed) ? parsed : [String(parsed)];
+    } catch {
+      return typeof value === "string" ? [value] : [];
+    }
   };
 
+  useEffect(() => {
+    async function fetchRecipe() {
+      try {
+        setLoading(true);
+        console.log("🔍 Buscando receita com ID:", id);
+
+        const { data, error } = await supabase
+          .from("recipes")
+          .select("*")
+          .eq("id", id)
+          .single();
+
+        console.log("📦 Dados retornados:", data);
+        console.log("⚠️ Erro Supabase:", error);
+
+        if (error) throw error;
+
+        // ✅ Corrigir os campos que vierem como string
+        const fixedData = {
+          ...data,
+          ingredients: safeParseArray(data.ingredients),
+          instructions: safeParseArray(data.instructions),
+        };
+
+        setRecipe(fixedData);
+      } catch (err) {
+        console.error("❌ Erro ao buscar receita:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (id) fetchRecipe();
+  }, [id]);
+
+  // Estado de carregamento
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen text-muted-pink">
+        Carregando receita...
+      </div>
+    );
+  }
+
+  // Caso não encontre receita
+  if (!recipe) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen text-gray-600">
+        <p className="text-lg font-medium mb-2">Receita não encontrada 😢</p>
+        <Link
+          to="/all-recipes-page"
+          className="text-muted-pink hover:underline"
+        >
+          Voltar para receitas
+        </Link>
+      </div>
+    );
+  }
+
+  // Renderização da página
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Header */}
       <header className="bg-white shadow-sm border-b">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link to="/all-recipes-page" className="flex items-center gap-2 text-muted-pink hover:text-gray-900 transition-colors">
-              <ArrowLeft size={20} />
-              Voltar para receitas
-            </Link>
-          </div>
+          <Link
+            to="/all-recipes-page"
+            className="flex items-center gap-2 text-muted-pink hover:text-gray-900 transition-colors"
+          >
+            <ArrowLeft size={20} />
+            Voltar para receitas
+          </Link>
         </div>
       </header>
 
+      {/* Conteúdo principal */}
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
+          {/* Coluna principal */}
           <div className="lg:col-span-2">
+            {/* Imagem */}
             <div className="bg-white rounded-xl shadow-sm overflow-hidden mb-6">
-              <img 
-                src={recipe.image} 
+              <img
+                src={recipe.image_url}
                 alt={recipe.title}
                 className="w-full h-64 lg:h-96 object-cover"
               />
             </div>
 
+            {/* Detalhes */}
             <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
               <div className="flex flex-wrap gap-4 justify-between items-center mb-4">
                 <div className="flex items-center gap-2 text-gray-600">
                   <Clock size={20} />
-                  <span className="font-medium">{recipe.time}</span>
+                  <span className="font-medium">{recipe.preparation_time}</span>
                 </div>
-                <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                  recipe.difficulty === "Fácil" 
-                    ? "bg-green-100 text-green-700" 
-                    : "bg-yellow-100 text-yellow-700"
-                }`}>
-                  {recipe.difficulty}
+
+                <span
+                  className={`px-3 py-1 rounded-full text-sm font-medium ${recipe.difficulty === "easy"
+                      ? "bg-green-100 text-green-700"
+                      : recipe.difficulty === "medium"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : "bg-red-100 text-red-700"
+                    }`}
+                >
+                  {recipe.difficulty === "easy"
+                    ? "Fácil"
+                    : recipe.difficulty === "medium"
+                      ? "Médio"
+                      : "Difícil"}
                 </span>
+
                 <div className="flex items-center gap-2 text-gray-600">
                   <Flame size={20} />
                   <span className="font-medium">{recipe.calories}</span>
                 </div>
-                <div className="flex items-center gap-2 text-yellow-600">
-                  <Star size={20} weight="fill" />
-                  <span className="font-medium">{recipe.rating} ({recipe.reviews})</span>
-                </div>
+
+                {recipe.rating && (
+                  <div className="flex items-center gap-2 text-yellow-600">
+                    <Star size={20} weight="fill" />
+                    <span className="font-medium">
+                      {recipe.rating} ({recipe.reviews ?? 0})
+                    </span>
+                  </div>
+                )}
               </div>
 
-              <h1 className="text-3xl font-bold text-muted-pink mb-3">{recipe.title}</h1>
+              <h1 className="text-3xl font-bold text-muted-pink mb-3">
+                {recipe.title}
+              </h1>
               <p className="text-gray-600 text-lg mb-4">{recipe.description}</p>
-              
+
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-pink-50 rounded-full flex items-center justify-center">
                   <User size={20} className="text-muted-pink" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">{recipe.author}</p>
+                  <p className="font-medium text-gray-900">
+                    {recipe.author ?? "Equipe Nutri+"}
+                  </p>
                   <p className="text-sm text-gray-600">{recipe.category}</p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              <h2 className="text-2xl font-bold text-muted-pink mb-6">Modo de Preparo</h2>
-              <div className="space-y-4">
-                {recipe.instructions.map((step, index) => (
-                  <div key={index} className="flex gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 bg-pink-50 text-muted-pink rounded-full flex items-center justify-center font-semibold">
-                      {index + 1}
+            <div>
+              <div className="bg-white rounded-xl shadow-sm p-6">
+                <h2 className="text-2xl font-bold text-muted-pink mb-6">
+                  Modo de Preparo
+                </h2>
+                <div className="space-y-2">
+                  {recipe.instructions?.map((step, index) => (
+                    <div key={index} className="flex gap-2">
+                      <p className="text-gray-700">
+                        {step.replace(/"/g, "")}
+                      </p>
                     </div>
-                    <p className="text-gray-700 pt-1">{step}</p>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <div className="bg-white rounded-xl shadow-sm p-6">
+                  <h3 className="text-xl font-semibold text-muted-pink mb-4">
+                    Ingredientes
+                  </h3>
+
+                  <div className="space-y-2">
+                    {recipe.ingredients && recipe.ingredients.length > 0 ? (
+                      recipe.ingredients.map((ingredient, index) => (
+                        <p key={index} className="text-gray-700">
+                          {ingredient.replace(/"/g, "")}
+                        </p>
+                      ))
+                    ) : (
+                      <p className="text-gray-500 italic">Nenhum ingrediente listado.</p>
+                    )}
                   </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-6">
-
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              <h3 className="text-xl font-semibold text-muted-pink mb-4">Ingredientes</h3>
-              <ul className="space-y-3">
-                {recipe.ingredients.map((ingredient, index) => (
-                  <li key={index} className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-muted-pink rounded-full"></div>
-                    <span className="text-gray-700">{ingredient}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              <h3 className="text-xl font-semibold text-muted-pink mb-4">Informação Nutricional</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Calorias</span>
-                  <span className="font-semibold">{recipe.nutrition.calories}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Proteínas</span>
-                  <span className="font-semibold">{recipe.nutrition.protein}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Carboidratos</span>
-                  <span className="font-semibold">{recipe.nutrition.carbs}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Gorduras</span>
-                  <span className="font-semibold">{recipe.nutrition.fat}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Fibras</span>
-                  <span className="font-semibold">{recipe.nutrition.fiber}</span>
                 </div>
               </div>
             </div>
 
-            <div className="bg-pink-50 rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-muted-pink mb-3">💡 Dicas</h3>
-              <ul className="space-y-2">
-                {recipe.tips.map((tip, index) => (
-                  <li key={index} className="text-muted-pink text-sm">{tip}</li>
-                ))}
-              </ul>
-            </div>
+            {/* Informação Nutricional */}
+            {recipe.nutrition && (
+              <div className="bg-white rounded-xl shadow-sm p-6">
+                <h3 className="text-xl font-semibold text-muted-pink mb-4">
+                  Informação Nutricional
+                </h3>
+                <div className="space-y-3">
+                  {Object.entries(recipe.nutrition).map(([key, value]) => (
+                    <div key={key} className="flex justify-between">
+                      <span className="text-gray-600 capitalize">
+                        {key.replace("_", " ")}
+                      </span>
+                      <span className="font-semibold">{value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Dicas */}
+            {recipe.tips && (
+              <div className="bg-pink-50 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-muted-pink mb-3">
+                  💡 Dicas
+                </h3>
+                <ul className="space-y-2">
+                  {recipe.tips.map((tip, index) => (
+                    <li key={index} className="text-muted-pink text-sm">
+                      {tip}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>
