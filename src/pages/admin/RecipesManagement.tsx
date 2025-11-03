@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Plus, Pencil, Trash, Eye, FileSearchIcon } from "@phosphor-icons/react";
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import type { Recipe } from '../../types/supabase';
 // O import recipes de '../../types/examples' foi removido
@@ -8,7 +8,7 @@ import { RecipeModal } from '../../components/admin/RecipeModal';
 import { RecipeViewModal } from '../../components/admin/RecipeViewModal';
 
 export function RecipesManagement() {
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     const [recipesList, setRecipesList] = useState<Recipe[]>([]); 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);

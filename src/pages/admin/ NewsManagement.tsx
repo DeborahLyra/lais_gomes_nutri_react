@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { Plus, Pencil, Trash, Eye, FileSearchIcon } from "@phosphor-icons/react";
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import type { News } from '../../types/supabase';
 import { NewsModal } from '../../components/admin/NewsModal';
@@ -8,7 +8,7 @@ import { NewsViewModal } from '../../components/admin/NewsViewModal';
 
 
 export function NewsManagement() {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [newsList, setNewsList] = useState<News[]>([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

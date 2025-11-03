@@ -1,13 +1,13 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Plus, Pencil, Trash, User, FileSearchIcon } from "@phosphor-icons/react";
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import type { Client } from '../../types/supabase';
 // O import clients de '../../types/examples' foi removido
 import { ClientModal } from '../../components/admin/ClientModal';
 
 export function ClientsManagement() {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [clientsList, setClientsList] = useState<Client[]>([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -133,14 +133,14 @@ export function ClientsManagement() {
       : 'bg-blue-100 text-blue-700';
   };
 
-  const formatDate = (dateString: string) => {
-    if (!dateString) return 'N/A';
-    try {
-        return new Date(dateString).toLocaleDateString('pt-BR');
-    } catch (e) {
-        return dateString;
-    }
-  };
+//   const formatDate = (dateString: string) => {
+//     if (!dateString) return 'N/A';
+//     try {
+//         return new Date(dateString).toLocaleDateString('pt-BR');
+//     } catch (e) {
+//         return dateString;
+//     }
+//   };
   
   let tableContent;
 
